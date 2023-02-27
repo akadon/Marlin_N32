@@ -1633,6 +1633,6 @@ void N32(){
 
 #else 
 
-N32(){};
+void N32(){};
 
 #endif
