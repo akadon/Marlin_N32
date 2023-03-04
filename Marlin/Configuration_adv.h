@@ -450,7 +450,7 @@
    * Enable Autotemp Mode with M104/M109 F<factor> S<mintemp> B<maxtemp>.
    * Disable by sending M104/M109 with no F parameter (or F0 with AUTOTEMP_PROPORTIONAL).
    */
-  //  #define AUTOTEMP
+  #define AUTOTEMP
   #if ENABLED(AUTOTEMP)
   #define AUTOTEMP_OLDWEIGHT    0.98  // Factor used to weight previous readings (0.0 < value < 1.0)
   // #define AUTOTEMP_MIN          210
@@ -518,7 +518,7 @@
    * Hotend Idle Timeout
    * Prevent filament in the nozzle from charring and causing a critical jam.
    */
-  //#define HOTEND_IDLE_TIMEOUT
+#define HOTEND_IDLE_TIMEOUT
   #if ENABLED(HOTEND_IDLE_TIMEOUT)
     #define HOTEND_IDLE_TIMEOUT_SEC (5*60)    // (seconds) Time without extruder movement to trigger protection
     #define HOTEND_IDLE_MIN_TRIGGER   180     // (°C) Minimum temperature to enable hotend protection
@@ -646,7 +646,7 @@
    * Multiple extruders can be assigned to the same pin in which case
    * the fan will turn on when any selected extruder is above the threshold.
    */
-  #define E0_AUTO_FAN_PIN -1
+#define E0_AUTO_FAN_PIN FAN1_PIN //sore
   #define E1_AUTO_FAN_PIN -1
   #define E2_AUTO_FAN_PIN -1
   #define E3_AUTO_FAN_PIN -1
@@ -884,7 +884,7 @@
 
 //#define SENSORLESS_BACKOFF_MM  { 2, 2, 0 }  // (linear=mm, rotational=°) Backoff from endstops before sensorless homing
 
-  #define HOMING_BUMP_MM      { 5, 5, 2 }       // (mm) Backoff from endstops after first bump
+#define HOMING_BUMP_MM      { 5, 5, 2 }       // (linear=mm, rotational=°) Backoff from endstops after first bump
   #define HOMING_BUMP_DIVISOR { 2, 2, 4 }       // Re-Bump Speed Divisor (Divides the Homing Feedrate)
 
 //#define HOMING_BACKOFF_POST_MM { 2, 2, 2 }  // (linear=mm, rotational=°) Backoff from endstops after homing
@@ -915,7 +915,7 @@
 
     // Safety: The probe needs time to recognize the command.
     //         Minimum command delay (ms). Enable and increase if needed.
-  //#define BLTOUCH_DELAY 500
+    #define BLTOUCH_DELAY 500
 
     /**
      * Settings for BLTOUCH Classic 1.2, 1.3 or BLTouch Smart 1.0, 2.0, 2.2, 3.0, 3.1, and most clones:
@@ -941,7 +941,7 @@
      * differs, a mode set eeprom write will be completed at initialization.
      * Use the option below to force an eeprom write to a V3.1 probe regardless.
      */
-  //#define BLTOUCH_SET_5V_MODE
+    #define BLTOUCH_SET_5V_MODE
 
     /**
      * Safety: Activate if connecting a probe with an unknown voltage mode.
@@ -1037,8 +1037,8 @@
   //#define ASSISTED_TRAMMING
   #if ENABLED(ASSISTED_TRAMMING)
 
-    // Define positions for probing points, use the hotend as reference not the sensor.
-    #define TRAMMING_POINT_XY { {  20, 20 }, { 200,  20 }, { 200, 200 }, { 20, 200 } }
+  // Define from 3 to 9 points to probe.
+  #define TRAMMING_POINT_XY { { 29, 29 }, { 199, 29 }, { 199, 199 }, { 29, 199 } }
 
   // Define position names for probe points.
     #define TRAMMING_POINT_NAME_1 "Front-Left"
@@ -1046,8 +1046,12 @@
     #define TRAMMING_POINT_NAME_3 "Back-Right"
     #define TRAMMING_POINT_NAME_4 "Back-Left"
 
-    // Enable to restore leveling setup after operation
-    #define RESTORE_LEVELING_AFTER_G35
+  #define RESTORE_LEVELING_AFTER_G35    // Enable to restore leveling setup after operation
+  //#define REPORT_TRAMMING_MM          // Report Z deviation (mm) for each point relative to the first
+
+  //#define ASSISTED_TRAMMING_WIZARD    // Add a Tramming Wizard to the LCD menu
+
+  //#define ASSISTED_TRAMMING_WAIT_POSITION { X_CENTER, Y_CENTER, 30 } // Move the nozzle out of the way for adjustment
 
     /**
      * Screw thread:
@@ -1055,7 +1059,7 @@
      *   M4: 40 = Clockwise, 41 = Counter-Clockwise
      *   M5: 50 = Clockwise, 51 = Counter-Clockwise
      */
-    #define TRAMMING_SCREW_THREAD 30
+  #define TRAMMING_SCREW_THREAD 40
 
   #endif
 
@@ -1358,9 +1362,9 @@
   // Change values more rapidly when the encoder is rotated faster
   #define ENCODER_RATE_MULTIPLIER
   #if ENABLED(ENCODER_RATE_MULTIPLIER)
-    #define ENCODER_5X_STEPS_PER_SEC    30
-    #define ENCODER_10X_STEPS_PER_SEC   80  // (steps/s) Encoder rate for 10x speed
-    #define ENCODER_100X_STEPS_PER_SEC  130  // (steps/s) Encoder rate for 100x speed
+    #define ENCODER_5X_STEPS_PER_SEC    25
+    #define ENCODER_10X_STEPS_PER_SEC   50  // (steps/s) Encoder rate for 10x speed
+    #define ENCODER_100X_STEPS_PER_SEC  75  // (steps/s) Encoder rate for 100x speed
   #endif
 
   // Play a beep when the feedrate is changed from the Status Screen
@@ -1493,7 +1497,7 @@
 #endif // HAS_DISPLAY || DWIN_LCD_PROUI
 
 // Add 'M73' to set print job progress, overrides Marlin's built-in estimate
-//#define SET_PROGRESS_MANUALLY   // Allow display feedback of host printing through GCode M73
+#define SET_PROGRESS_MANUALLY   // Allow display feedback of host printing through GCode M73
 #if ENABLED(SET_PROGRESS_MANUALLY)
   #define SET_PROGRESS_PERCENT            // Add 'P' parameter to set percentage done   // Allow display feedback of host printing through GCode M73
   #define SET_REMAINING_TIME              // Add 'R' parameter to set remaining time   // Allow display feedback of host printing through GCode M73
@@ -2075,8 +2079,8 @@
 #define BABYSTEPPING  // Ender Configs
   #if ENABLED(BABYSTEPPING)
     //#define INTEGRATED_BABYSTEPPING         // EXPERIMENTAL integration of babystepping into the Stepper ISR
- // #define BABYSTEP_WITHOUT_HOMING  	     // Enabled BbS without home
-  //#define BABYSTEP_ALWAYS_AVAILABLE         // Allow babystepping at all times (not just during movement).   // Active BbS always
+  #define BABYSTEP_WITHOUT_HOMING  	     // Enabled BbS without home
+  #define BABYSTEP_ALWAYS_AVAILABLE         // Allow babystepping at all times (not just during movement).   // Active BbS always
     //#define BABYSTEP_XY                     // Also enable X/Y Babystepping. Not supported on DELTA!
     #define BABYSTEP_INVERT_Z false           // Change if Z babysteps should go the other way
     //#define BABYSTEP_MILLIMETER_UNITS       // Specify BABYSTEP_MULTIPLICATOR_(XY|Z) in mm instead of micro-steps
@@ -2120,7 +2124,7 @@
    *
    * See https://marlinfw.org/docs/features/lin_advance.html for full instructions.
    */
-  //#define LIN_ADVANCE
+#define LIN_ADVANCE
   #if ENABLED(LIN_ADVANCE)
   #if ENABLED(DISTINCT_E_FACTORS)
     #define ADVANCE_K { 0.0 }    // (mm) Compression length per 1mm/s extruder speed, per extruder
@@ -2191,10 +2195,10 @@
 
   #if EITHER(MESH_BED_LEVELING, AUTO_BED_LEVELING_UBL)
     // Override the mesh area if the automatic (max) area is too large
-  // #define MESH_MIN_X MESH_INSET
-  // #define MESH_MIN_Y MESH_INSET
-  // #define MESH_MAX_X X_BED_SIZE - (MESH_INSET)
-  // #define MESH_MAX_Y Y_BED_SIZE - (MESH_INSET)
+  #define MESH_MIN_X MESH_INSET
+  #define MESH_MIN_Y MESH_INSET
+  #define MESH_MAX_X X_BED_SIZE - (MESH_INSET)
+  #define MESH_MAX_Y Y_BED_SIZE - (MESH_INSET)
 #endif
 
 #if BOTH(AUTO_BED_LEVELING_UBL, EEPROM_SETTINGS)
@@ -2422,7 +2426,7 @@
   // Without XON/XOFF flow control (see SERIAL_XON_XOFF below) 32 bytes should be enough.
   // To use flow control, set this buffer size to at least 1024 bytes.
   // :[0, 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024, 2048]
-#define RX_BUFFER_SIZE 1024
+#define RX_BUFFER_SIZE 2048
 
   #if RX_BUFFER_SIZE >= 1024
     // Enable to have the controller send XON/XOFF control characters to
@@ -2526,9 +2530,9 @@
    *
    * Note that M207 / M208 / M209 settings are saved to EEPROM.
    */
-//#define FWRETRACT   // Enabled support for firmware based retract
+#define FWRETRACT   // Enabled support for firmware based retract
   #if ENABLED(FWRETRACT)
-    #define FWRETRACT_AUTORETRACT           // Override slicer retractions
+    //#define FWRETRACT_AUTORETRACT           // Override slicer retractions
     #if ENABLED(FWRETRACT_AUTORETRACT)
       #define MIN_AUTORETRACT 0.1           // (mm) Don't convert E moves under this length
       #define MAX_AUTORETRACT 10.0          // (mm) Don't convert E moves over this length
@@ -2536,7 +2540,7 @@
     #define RETRACT_LENGTH 3                // (mm) Default retract length (positive value)
     #define RETRACT_LENGTH_SWAP 13          // (mm) Default swap retract length (positive value)
     #define RETRACT_FEEDRATE 45             // (mm/s) Default feedrate for retracting
-    #define RETRACT_ZRAISE 0                // (mm) Default retract Z-raise
+    #define RETRACT_ZRAISE 0.4                // (mm) Default retract Z-raise
     #define RETRACT_RECOVER_LENGTH 0        // (mm) Default additional recover length (added to retract length on recover)
     #define RETRACT_RECOVER_LENGTH_SWAP 0   // (mm) Default additional swap recover length (added to retract length on recover from toolchange)
     #define RETRACT_RECOVER_FEEDRATE 8      // (mm/s) Default feedrate for recovering from retraction
@@ -2655,7 +2659,7 @@
  *
  * Enable PARK_HEAD_ON_PAUSE to add the G-code M125 Pause and Park.
    */
-//#define ADVANCED_PAUSE_FEATURE
+#define ADVANCED_PAUSE_FEATURE
   #if ENABLED(ADVANCED_PAUSE_FEATURE)
     #define PAUSE_PARK_RETRACT_FEEDRATE         60  // (mm/s) Initial retract feedrate.
     #define PAUSE_PARK_RETRACT_LENGTH            2  // (mm) Initial retract.
@@ -3567,14 +3571,15 @@
    */
   //#define POWER_MONITOR_CURRENT   // Monitor the system current
   //#define POWER_MONITOR_VOLTAGE   // Monitor the system voltage
-  #if EITHER(POWER_MONITOR_CURRENT, POWER_MONITOR_VOLTAGE)
-    #define POWER_MONITOR_VOLTS_PER_AMP   0.05000   // Input voltage to the MCU analog pin per amp  - DO NOT apply more than ADC_VREF!
-    #define POWER_MONITOR_CURRENT_OFFSET -1         // Offset value for current sensors with linear function output
+
+#if ENABLED(POWER_MONITOR_CURRENT)
+  #define POWER_MONITOR_VOLTS_PER_AMP    0.05000  // Input voltage to the MCU analog pin per amp  - DO NOT apply more than ADC_VREF!
+  #define POWER_MONITOR_CURRENT_OFFSET   -1        // Offset (in amps) applied to the calculated current
     #define POWER_MONITOR_FIXED_VOLTAGE   13.6      // Voltage for a current sensor with no voltage sensor (for power display)
   #endif
 
 #if ENABLED(POWER_MONITOR_VOLTAGE)
-    #define POWER_MONITOR_VOLTS_PER_VOLT  0.11786   // Input voltage to the MCU analog pin per volt - DO NOT apply more than ADC_VREF!
+  #define POWER_MONITOR_VOLTS_PER_VOLT  0.11786  // Input voltage to the MCU analog pin per volt - DO NOT apply more than ADC_VREF!
   #define POWER_MONITOR_VOLTAGE_OFFSET  0         // Offset (in volts) applied to the calculated voltage
 #endif
 
@@ -3625,7 +3630,7 @@
    */
   #define EXTENDED_CAPABILITIES_REPORT
   #if ENABLED(EXTENDED_CAPABILITIES_REPORT)
-    //#define M115_GEOMETRY_REPORT
+  #define M115_GEOMETRY_REPORT
   #endif
 
 // @section security
@@ -4221,23 +4226,23 @@
   //
   // M100 Free Memory Watcher to debug memory usage
   //
-  //#define M100_FREE_MEMORY_WATCHER
+//#define M100_FREE_MEMORY_WATCHER
 
 //
 // M42 - Set pin states
 //
-//#define DIRECT_PIN_CONTROL
+#define DIRECT_PIN_CONTROL
 
   //
   // M43 - display pin status, toggle pins, watch pins, watch endstops & toggle LED, test servo probe
   //
-//#define PINS_DEBUGGING
+#define PINS_DEBUGGING
 
 // Enable Tests that will run at startup and produce a report
 //#define MARLIN_TEST_BUILD
 
   // Enable Marlin dev mode which adds some special commands
-  //#define MARLIN_DEV_MODE
+//#define MARLIN_DEV_MODE
 
 #if ENABLED(MARLIN_DEV_MODE)
   /**
