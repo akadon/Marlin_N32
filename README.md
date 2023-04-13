@@ -4,7 +4,7 @@ just copy my github https://github.com/akadon/N32_Voxelab_Marlin into https://gi
   
 Linux:     
 git clone https://github.com/MarlinFirmware/Marlin .   
-git checkout b1f45b384b2e472219ca055050ebd2182eea045d # latest commit at this time (tested works)   
+git checkout c8cb618faca2ec88681dfdd1b36ab6d160036b33 # latest commit at this time (tested works)   
 git clone https://github.com/akadon/Marlin_N32 Marlin_N32   
 cp -r !(.git/\*) Marlin_N32/\* .    
   
