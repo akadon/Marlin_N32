@@ -1508,7 +1508,7 @@
   #define SET_PROGRESS_PERCENT            // Add 'P' parameter to set percentage done   // Allow display feedback of host printing through GCode M73
   #define SET_REMAINING_TIME              // Add 'R' parameter to set remaining time   // Allow display feedback of host printing through GCode M73
   //#define SET_INTERACTION_TIME          // Add 'C' parameter to set time until next filament change or other user interaction
-  //#define M73_REPORT                    // Report M73 values to host
+  #define M73_REPORT                    // Report M73 values to host
   #if BOTH(M73_REPORT, SDSUPPORT)
     #define M73_REPORT_SD_ONLY            // Report only when printing from SD
   #endif
@@ -1518,7 +1518,7 @@
 #if HAS_DISPLAY && EITHER(SDSUPPORT, SET_PROGRESS_MANUALLY)
   #define SHOW_PROGRESS_PERCENT           // Show print progress percentage (doesn't affect progress bar)
   #define SHOW_ELAPSED_TIME               // Display elapsed printing time (prefix 'E')
-  //#define SHOW_REMAINING_TIME           // Display estimated time to completion (prefix 'R')
+  #define SHOW_REMAINING_TIME           // Display estimated time to completion (prefix 'R')
   #if ENABLED(SET_INTERACTION_TIME)
     #define SHOW_INTERACTION_TIME         // Display time until next user interaction ('C' = filament change)
     #endif
@@ -1553,9 +1553,9 @@
     //#define SD_DETECT_STATE HIGH
 
   //#define SD_IGNORE_AT_STARTUP            // Don't mount the SD card when starting up
-    //#define SDCARD_READONLY                 // Read-only SD card (to save over 2K of flash)
+  #define SDCARD_READONLY                 // Read-only SD card (to save over 2K of flash)
 
-  //#define GCODE_REPEAT_MARKERS            // Enable G-code M808 to set repeat markers and do looping
+  #define GCODE_REPEAT_MARKERS            // Enable G-code M808 to set repeat markers and do looping
 
   #define SD_PROCEDURE_DEPTH 1              // Increase if you need more nested M32 calls   // save program memory
 
@@ -1568,7 +1568,7 @@
 
     #define SD_MENU_CONFIRM_START             // Confirm the selected SD file before printing
 
-  //#define NO_SD_AUTOSTART                 // Remove auto#.g file support completely to save some Flash, SRAM
+  #define NO_SD_AUTOSTART                 // Remove auto#.g file support completely to save some Flash, SRAM
     //#define MENU_ADDAUTOSTART               // Add a menu option to run auto#.g files
 
   //#define BROWSE_MEDIA_ON_INSERT          // Open the file browser when media is inserted
@@ -1589,7 +1589,7 @@
      * an option on the LCD screen to continue the print from the last-known
      * point in the file.
      */
-  #define POWER_LOSS_RECOVERY  // Ender Configs
+  //#define POWER_LOSS_RECOVERY  // Ender Configs
     #if ENABLED(POWER_LOSS_RECOVERY)
     #define PLR_ENABLED_DEFAULT   false // Power Loss Recovery enabled by default. (Set with 'M413 Sn' & M500)
       //#define BACKUP_POWER_SUPPLY       // Backup power / UPS to move the steppers on power loss
@@ -1642,7 +1642,7 @@
       #define SDSORT_LIMIT       40     // Maximum number of sorted items (10-256). Costs 27 bytes each.
       #define FOLDER_SORTING     1     // -1=above  0=none  1=below
     #define SDSORT_GCODE       false  // Allow turning sorting on/off with LCD and M34 G-code.   // Allows disable file sort by M34 g-code
-    #define SDSORT_USES_RAM    true  // Pre-allocate a static array for faster pre-sorting.  // Ender Configs
+    #define SDSORT_USES_RAM    false  // Pre-allocate a static array for faster pre-sorting.  // Ender Configs
       #define SDSORT_USES_STACK  false  // Prefer the stack for pre-sorting to give back some SRAM. (Negated by next 2 options.)
     #define SDSORT_CACHE_NAMES false  // Keep sorted items in RAM longer for speedy performance. Most expensive option.  // Ender Configs
     #define SDSORT_DYNAMIC_RAM false  // Use dynamic allocation (within SD menus). Least expensive option. Set SDSORT_LIMIT before use!  // Ender Configs
@@ -2082,7 +2082,7 @@
    *
    * Warning: Does not respect endstops!
    */
-#define BABYSTEPPING  // Ender Configs
+//#define BABYSTEPPING  // Ender Configs
   #if ENABLED(BABYSTEPPING)
     //#define INTEGRATED_BABYSTEPPING         // EXPERIMENTAL integration of babystepping into the Stepper ISR
   #define BABYSTEP_WITHOUT_HOMING  	     // Enabled BbS without home
@@ -2135,7 +2135,7 @@
   #if ENABLED(DISTINCT_E_FACTORS)
     #define ADVANCE_K { 0.0 }    // (mm) Compression length per 1mm/s extruder speed, per extruder
   #else
-    #define ADVANCE_K 0.0        // (mm) Compression length applying to all extruders
+    #define ADVANCE_K 0.1        // (mm) Compression length applying to all extruders
   #endif
   //#define ADVANCE_K_EXTRA       // Add a second linear advance constant, configurable with M900 L.
   //#define LA_DEBUG              // Print debug information to serial during operation. Disable for production use.
@@ -2309,7 +2309,7 @@
   #if ENABLED(ARC_SUPPORT)
   #define MIN_ARC_SEGMENT_MM      0.1 // (mm) Minimum length of each arc segment
   #define MAX_ARC_SEGMENT_MM      1.0 // (mm) Maximum length of each arc segment
-  #define MIN_CIRCLE_SEGMENTS    24   // Minimum number of segments in a complete circle
+  #define MIN_CIRCLE_SEGMENTS    20   // Minimum number of segments in a complete circle
   //#define ARC_SEGMENTS_PER_SEC 50   // Use the feedrate to choose the segment length
   #define N_ARC_CORRECTION       25   // Number of interpolated segments between corrections
   #define ARC_P_CIRCLES             // Enable the 'P' parameter to specify complete circles   // Enabled
@@ -2320,7 +2320,7 @@
 #define BEZIER_CURVE_SUPPORT        // Requires ~2666 bytes
 
 #if EITHER(ARC_SUPPORT, BEZIER_CURVE_SUPPORT)
-  //#define CNC_WORKSPACE_PLANES      // Allow G2/G3/G5 to operate in XY, ZX, or YZ planes
+  #define CNC_WORKSPACE_PLANES      // Allow G2/G3/G5 to operate in XY, ZX, or YZ planes
 #endif
 
   /**
@@ -2464,7 +2464,7 @@
    * Currently handles M108, M112, M410, M876
    * NOTE: Not yet implemented for all platforms.
    */
-#define EMERGENCY_PARSER   // Enabled instantaneous response to emergency commands
+//#define EMERGENCY_PARSER   // Enabled instantaneous response to emergency commands
 
 /**
  * Realtime Reporting (requires EMERGENCY_PARSER)
@@ -2538,19 +2538,19 @@
    */
 #define FWRETRACT   // Enabled support for firmware based retract
   #if ENABLED(FWRETRACT)
-    //#define FWRETRACT_AUTORETRACT           // Override slicer retractions
+    #define FWRETRACT_AUTORETRACT           // Override slicer retractions
     #if ENABLED(FWRETRACT_AUTORETRACT)
       #define MIN_AUTORETRACT 0.1           // (mm) Don't convert E moves under this length
       #define MAX_AUTORETRACT 10.0          // (mm) Don't convert E moves over this length
     #endif
-    #define RETRACT_LENGTH 3                // (mm) Default retract length (positive value)
-    #define RETRACT_LENGTH_SWAP 13          // (mm) Default swap retract length (positive value)
-    #define RETRACT_FEEDRATE 45             // (mm/s) Default feedrate for retracting
+    #define RETRACT_LENGTH 1                // (mm) Default retract length (positive value)
+    #define RETRACT_LENGTH_SWAP 10          // (mm) Default swap retract length (positive value)
+    #define RETRACT_FEEDRATE 80             // (mm/s) Default feedrate for retracting
     #define RETRACT_ZRAISE 0.4                // (mm) Default retract Z-raise
     #define RETRACT_RECOVER_LENGTH 0        // (mm) Default additional recover length (added to retract length on recover)
     #define RETRACT_RECOVER_LENGTH_SWAP 0   // (mm) Default additional swap recover length (added to retract length on recover from toolchange)
-    #define RETRACT_RECOVER_FEEDRATE 8      // (mm/s) Default feedrate for recovering from retraction
-    #define RETRACT_RECOVER_FEEDRATE_SWAP 8 // (mm/s) Default feedrate for recovering from swap retraction
+    #define RETRACT_RECOVER_FEEDRATE 0      // (mm/s) Default feedrate for recovering from retraction
+    #define RETRACT_RECOVER_FEEDRATE_SWAP 0 // (mm/s) Default feedrate for recovering from swap retraction
     #if ENABLED(MIXING_EXTRUDER)
       //#define RETRACT_SYNC_MIXING         // Retract and restore all mixing steppers simultaneously
     #endif
@@ -2665,7 +2665,7 @@
  *
  * Enable PARK_HEAD_ON_PAUSE to add the G-code M125 Pause and Park.
    */
-#define ADVANCED_PAUSE_FEATURE
+//#define ADVANCED_PAUSE_FEATURE
   #if ENABLED(ADVANCED_PAUSE_FEATURE)
     #define PAUSE_PARK_RETRACT_FEEDRATE         60  // (mm/s) Initial retract feedrate.
     #define PAUSE_PARK_RETRACT_LENGTH            2  // (mm) Initial retract.
@@ -4238,12 +4238,12 @@
 //
 // M42 - Set pin states
 //
-#define DIRECT_PIN_CONTROL
+//#define DIRECT_PIN_CONTROL
 
   //
   // M43 - display pin status, toggle pins, watch pins, watch endstops & toggle LED, test servo probe
   //
-#define PINS_DEBUGGING
+//#define PINS_DEBUGGING
 
 // Enable Tests that will run at startup and produce a report
 //#define MARLIN_TEST_BUILD
@@ -4264,7 +4264,7 @@
  * When running in the debugger it will break for debugging. This is useful to help understand
  * a crash from a remote location. Requires ~400 bytes of SRAM and 5Kb of flash.
  */
-#define POSTMORTEM_DEBUGGING
+//#define POSTMORTEM_DEBUGGING
 
 /**
  * Software Reset options
