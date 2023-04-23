@@ -541,7 +541,7 @@
    * Hotend Idle Timeout
    * Prevent filament in the nozzle from charring and causing a critical jam.
    */
-//#define HOTEND_IDLE_TIMEOUT
+#define HOTEND_IDLE_TIMEOUT
   #if ENABLED(HOTEND_IDLE_TIMEOUT)
     #define HOTEND_IDLE_TIMEOUT_SEC (5*60)    // (seconds) Time without extruder movement to trigger protection
     #define HOTEND_IDLE_MIN_TRIGGER   180     // (°C) Minimum temperature to enable hotend protection
@@ -669,7 +669,7 @@
    * Multiple extruders can be assigned to the same pin in which case
    * the fan will turn on when any selected extruder is above the threshold.
    */
-#define E0_AUTO_FAN_PIN FAN1_PIN //sore
+#define E0_AUTO_FAN_PIN FAN1_PIN
   #define E1_AUTO_FAN_PIN -1
   #define E2_AUTO_FAN_PIN -1
   #define E3_AUTO_FAN_PIN -1
@@ -1221,7 +1221,7 @@
 
 // Slow down the machine if the lookahead buffer is (by default) half full.
   // Increase the slowdown divisor for larger buffer sizes.
-  #define SLOWDOWN
+  //#define SLOWDOWN
   #if ENABLED(SLOWDOWN)
     #define SLOWDOWN_DIVISOR 2
   #endif
@@ -1459,10 +1459,10 @@
 //
 // LCD Backlight Timeout
 //
+#define LCD_BACKLIGHT_TIMEOUT_MINS 1  // (minutes) Timeout before turning off the backlight
 #if !PIN_EXISTS(LCD_BACKLIGHT)
   #define LCD_BACKLIGHT_PIN -1 // needs to be on if no pin for timeout function
 #endif
-#define LCD_BACKLIGHT_TIMEOUT_MINS 1  // (minutes) Timeout before turning off the backlight
 
 #if HAS_BED_PROBE && EITHER(HAS_MARLINUI_MENU, HAS_TFT_LVGL_UI)
   //#define PROBE_OFFSET_WIZARD       // Add a Probe Z Offset calibration option to the LCD menu
@@ -1515,6 +1515,9 @@
   // Insert a menu for preheating at the top level to allow for quick access
   //#define PREHEAT_SHORTCUT_MENU_ITEM
 
+  // Add Configuration > Debug Menu > Endstop Test for endstop/probe/runout testing
+  //#define LCD_ENDSTOP_TEST
+
 #endif // HAS_MARLINUI_MENU
 
 #if HAS_DISPLAY
@@ -1538,6 +1541,9 @@
       //#define SHOW_CUSTOM_BOOTSCREEN      // Show the bitmap in Marlin/_Bootscreen.h on startup.
   #endif
     #if HAS_MARLINUI_U8GLIB
+      #if ENABLED(SHOW_BOOTSCREEN)
+        //#define BOOT_MARLIN_LOGO_ANIMATED // Animated Marlin logo. Costs ~3260 (or ~940) bytes of flash.
+      #endif
       //#define CUSTOM_STATUS_SCREEN_IMAGE  // Show the bitmap in Marlin/_Statusscreen.h on the status screen.
     #endif
   #endif
@@ -1594,8 +1600,8 @@
 // Add 'M73' to set print job progress, overrides Marlin's built-in estimate
 #define SET_PROGRESS_MANUALLY
 #if ENABLED(SET_PROGRESS_MANUALLY)
-  #define SET_PROGRESS_PERCENT            // Add 'P' parameter to set percentage done   // Allow display feedback of host printing through GCode M73
-  #define SET_REMAINING_TIME              // Add 'R' parameter to set remaining time   // Allow display feedback of host printing through GCode M73
+  #define SET_PROGRESS_PERCENT            // Add 'P' parameter to set percentage done
+  #define SET_REMAINING_TIME              // Add 'R' parameter to set remaining time
   //#define SET_INTERACTION_TIME          // Add 'C' parameter to set time until next filament change or other user interaction
   #define M73_REPORT                    // Report M73 values to host
   #if BOTH(M73_REPORT, SDSUPPORT)
@@ -1678,7 +1684,7 @@
      * an option on the LCD screen to continue the print from the last-known
      * point in the file.
      */
-  //#define POWER_LOSS_RECOVERY
+  #define POWER_LOSS_RECOVERY
     #if ENABLED(POWER_LOSS_RECOVERY)
     #define PLR_ENABLED_DEFAULT   false // Power Loss Recovery enabled by default. (Set with 'M413 Sn' & M500)
       //#define BACKUP_POWER_SUPPLY       // Backup power / UPS to move the steppers on power loss
@@ -1724,17 +1730,17 @@
      *  - SDSORT_CACHE_NAMES will retain the sorted file listing in RAM. (Expensive!)
      *  - SDSORT_DYNAMIC_RAM only uses RAM when the SD menu is visible. (Use with caution!)
      */
-    //#define SDCARD_SORT_ALPHA
+    #define SDCARD_SORT_ALPHA
 
     // SD Card Sorting options
     #if ENABLED(SDCARD_SORT_ALPHA)
-      #define SDSORT_LIMIT       40     // Maximum number of sorted items (10-256). Costs 27 bytes each.
-      #define FOLDER_SORTING     1     // -1=above  0=none  1=below
-    #define SDSORT_GCODE       false  // Allow turning sorting on/off with LCD and M34 G-code.   // Allows disable file sort by M34 g-code
-    #define SDSORT_USES_RAM    false  // Pre-allocate a static array for faster pre-sorting.  // Ender Configs
+      #define SDSORT_LIMIT       20     // Maximum number of sorted items (10-256). Costs 27 bytes each.
+    #define FOLDER_SORTING     -1     // -1=above  0=none  1=below
+    #define SDSORT_GCODE       true  // Allow turning sorting on/off with LCD and M34 G-code.
+    #define SDSORT_USES_RAM    false  // Pre-allocate a static array for faster pre-sorting.
       #define SDSORT_USES_STACK  false  // Prefer the stack for pre-sorting to give back some SRAM. (Negated by next 2 options.)
-    #define SDSORT_CACHE_NAMES false  // Keep sorted items in RAM longer for speedy performance. Most expensive option.  // Ender Configs
-    #define SDSORT_DYNAMIC_RAM false  // Use dynamic allocation (within SD menus). Least expensive option. Set SDSORT_LIMIT before use!  // Ender Configs
+    #define SDSORT_CACHE_NAMES false  // Keep sorted items in RAM longer for speedy performance. Most expensive option.
+    #define SDSORT_DYNAMIC_RAM false  // Use dynamic allocation (within SD menus). Least expensive option. Set SDSORT_LIMIT before use!
       #define SDSORT_CACHE_VFATS 2      // Maximum number of 13-byte VFAT entries to use for sorting.
                                         // Note: Only affects SCROLL_LONG_FILENAMES with SDSORT_CACHE_NAMES but not SDSORT_DYNAMIC_RAM.
     #endif
@@ -1743,11 +1749,11 @@
   // LCD's font must contain the characters. Check your selected LCD language.
   //#define UTF_FILENAME_SUPPORT
 
-  //#define LONG_FILENAME_HOST_SUPPORT    // Get the long filename of a file/folder with 'M33 <dosname>' and list long filenames with 'M20 L'
-  //#define LONG_FILENAME_WRITE_SUPPORT   // Create / delete files with long filenames via M28, M30, and Binary Transfer Protocol
-  //#define M20_TIMESTAMP_SUPPORT         // Include timestamps by adding the 'T' flag to M20 commands
+  #define LONG_FILENAME_HOST_SUPPORT    // Get the long filename of a file/folder with 'M33 <dosname>' and list long filenames with 'M20 L'
+  #define LONG_FILENAME_WRITE_SUPPORT   // Create / delete files with long filenames via M28, M30, and Binary Transfer Protocol
+  #define M20_TIMESTAMP_SUPPORT         // Include timestamps by adding the 'T' flag to M20 commands
 
-  //#define SCROLL_LONG_FILENAMES         // Scroll long filenames in the SD card menu
+  #define SCROLL_LONG_FILENAMES         // Scroll long filenames in the SD card menu
 
   //#define SD_ABORT_NO_COOLDOWN          // Leave the heaters on after Stop Print (not recommended!)
 
@@ -1763,7 +1769,7 @@
 
   //#define SD_REPRINT_LAST_SELECTED_FILE // On print completion open the LCD Menu and select the same file
 
-  //#define AUTO_REPORT_SD_STATUS         // Auto-report media status with 'M27 S<seconds>'
+  #define AUTO_REPORT_SD_STATUS         // Auto-report media status with 'M27 S<seconds>'
 
     /**
      * Support for USB thumb drives using an Arduino USB Host Shield or
@@ -1791,7 +1797,7 @@
        *   is less tested and is known to interfere with Servos.
        *   [1] This requires USB_INTR_PIN to be interrupt-capable.
        */
-    //#define USE_UHS2_USB
+    #define USE_UHS2_USB
       //#define USE_UHS3_USB
 
     #define DISABLE_DUE_SD_MMC // Disable USB Host access to USB Drive to prevent hangs on block access for DUE platform
@@ -1832,11 +1838,11 @@
   //#define CONFIGURATION_EMBEDDING
 
     // Add an optimized binary file transfer mode, initiated with 'M28 B1'
-    //#define BINARY_FILE_TRANSFER
+  #define BINARY_FILE_TRANSFER
 
   #if ENABLED(BINARY_FILE_TRANSFER)
     // Include extra facilities (e.g., 'M20 F') supporting firmware upload via BINARY_FILE_TRANSFER
-    //#define CUSTOM_FIRMWARE_UPLOAD
+    #define CUSTOM_FIRMWARE_UPLOAD
   #endif
 
     /**
@@ -1950,7 +1956,6 @@
     //#define STATUS_ALT_FAN_BITMAP     // Use the alternative fan bitmap
     //#define STATUS_FAN_FRAMES 3       // :[0,1,2,3,4] Number of fan animation frames
     //#define STATUS_HEAT_PERCENT       // Show heating in a progress bar
-  //#define BOOT_MARLIN_LOGO_ANIMATED // Animated Marlin logo. Costs ~3260 (or ~940) bytes of flash.
 
     // Frivolous Game Options
     //#define MARLIN_BRICKOUT
@@ -2171,7 +2176,7 @@
    *
    * Warning: Does not respect endstops!
    */
-//#define BABYSTEPPING
+#define BABYSTEPPING
   #if ENABLED(BABYSTEPPING)
     //#define INTEGRATED_BABYSTEPPING         // EXPERIMENTAL integration of babystepping into the Stepper ISR
   //#define BABYSTEP_WITHOUT_HOMING
@@ -2218,12 +2223,12 @@
    *
    * See https://marlinfw.org/docs/features/lin_advance.html for full instructions.
    */
-#define LIN_ADVANCE
+//#define LIN_ADVANCE
   #if ENABLED(LIN_ADVANCE)
   #if ENABLED(DISTINCT_E_FACTORS)
     #define ADVANCE_K { 0.00 }    // (mm) Compression length per 1mm/s extruder speed, per extruder
   #else
-    #define ADVANCE_K 0.00        // (mm) Compression length applying to all extruders
+    #define ADVANCE_K 0.10        // (mm) Compression length applying to all extruders
   #endif
   //#define ADVANCE_K_EXTRA       // Add a second linear advance constant, configurable with M900 L.
   //#define LA_DEBUG              // Print debug information to serial during operation. Disable for production use.
@@ -2393,7 +2398,7 @@
 #define ARC_SUPPORT                   // Requires ~3226 bytes
   #if ENABLED(ARC_SUPPORT)
   #define MIN_ARC_SEGMENT_MM      0.1 // (mm) Minimum length of each arc segment
-  #define MAX_ARC_SEGMENT_MM      1000.0 // (mm) Maximum length of each arc segment
+  #define MAX_ARC_SEGMENT_MM      200.0 // (mm) Maximum length of each arc segment
   #define MIN_CIRCLE_SEGMENTS    20   // Minimum number of segments in a complete circle
   //#define ARC_SEGMENTS_PER_SEC 50   // Use the feedrate to choose the segment length
   #define N_ARC_CORRECTION       25   // Number of interpolated segments between corrections
@@ -2416,7 +2421,7 @@
    * less step aliasing by calculating all motions in advance.
    * Preparing your G-code: https://github.com/colinrgodsey/step-daemon
    */
-  //#define DIRECT_STEPPING
+  #define DIRECT_STEPPING
 
   /**
    * G38 Probe Target
@@ -2549,7 +2554,7 @@
    * Currently handles M108, M112, M410, M876
    * NOTE: Not yet implemented for all platforms.
    */
-//#define EMERGENCY_PARSER
+#define EMERGENCY_PARSER
 
 /**
  * Realtime Reporting (requires EMERGENCY_PARSER)
@@ -2628,10 +2633,10 @@
       #define MIN_AUTORETRACT 0.1           // (mm) Don't convert E moves under this length
       #define MAX_AUTORETRACT 10.0          // (mm) Don't convert E moves over this length
     #endif
-  #define RETRACT_LENGTH                3   // (mm) Default retract length (positive value)
-  #define RETRACT_LENGTH_SWAP          13   // (mm) Default swap retract length (positive value)
-  #define RETRACT_FEEDRATE             80   // (mm/s) Default feedrate for retracting
-  #define RETRACT_ZRAISE                0.4   // (mm) Default retract Z-raise
+  #define RETRACT_LENGTH                1   // (mm) Default retract length (positive value)
+  #define RETRACT_LENGTH_SWAP          10   // (mm) Default swap retract length (positive value)
+  #define RETRACT_FEEDRATE             200   // (mm/s) Default feedrate for retracting
+  #define RETRACT_ZRAISE                0.3   // (mm) Default retract Z-raise
   #define RETRACT_RECOVER_LENGTH        0   // (mm) Default additional recover length (added to retract length on recover)
   #define RETRACT_RECOVER_LENGTH_SWAP   0   // (mm) Default additional swap recover length (added to retract length on recover from toolchange)
   #define RETRACT_RECOVER_FEEDRATE      8   // (mm/s) Default feedrate for recovering from retraction
@@ -2750,7 +2755,7 @@
  *
  * Enable PARK_HEAD_ON_PAUSE to add the G-code M125 Pause and Park.
    */
-//#define ADVANCED_PAUSE_FEATURE
+#define ADVANCED_PAUSE_FEATURE
   #if ENABLED(ADVANCED_PAUSE_FEATURE)
     #define PAUSE_PARK_RETRACT_FEEDRATE         60  // (mm/s) Initial retract feedrate.
     #define PAUSE_PARK_RETRACT_LENGTH            2  // (mm) Initial retract.
@@ -3721,7 +3726,7 @@
 /**
  * Auto-report position with M154 S<seconds>
  */
-//#define AUTO_REPORT_POSITION
+#define AUTO_REPORT_POSITION
 
   /**
    * Include capabilities in M115 output
@@ -3813,8 +3818,8 @@
    * Note that G0 feedrates should be used with care for 3D printing (if used at all).
    * High feedrates may cause ringing and harm print quality.
    */
-  //#define PAREN_COMMENTS      // Support for parentheses-delimited comments
-  //#define GCODE_MOTION_MODES  // Remember the motion mode (G0 G1 G2 G3 G5 G38.X) and apply for X Y Z E F, etc.
+  #define PAREN_COMMENTS      // Support for parentheses-delimited comments
+  #define GCODE_MOTION_MODES  // Remember the motion mode (G0 G1 G2 G3 G5 G38.X) and apply for X Y Z E F, etc.
 
   // Enable and set a (default) feedrate for all G0 moves
 //#define G0_FEEDRATE 3000 // (mm/min)
@@ -3961,7 +3966,7 @@
    * Host Prompt Support enables Marlin to use the host for user prompts so
    * filament runout and other processes can be managed from the host side.
    */
-  //#define HOST_ACTION_COMMANDS
+  #define HOST_ACTION_COMMANDS
   #if ENABLED(HOST_ACTION_COMMANDS)
   //#define HOST_PAUSE_M76                // Tell the host to pause in response to M76
   //#define HOST_PROMPT_SUPPORT           // Initiate host prompts to get user feedback
@@ -4330,12 +4335,12 @@
 //
 // M42 - Set pin states
 //
-//#define DIRECT_PIN_CONTROL
+#define DIRECT_PIN_CONTROL
 
   //
   // M43 - display pin status, toggle pins, watch pins, watch endstops & toggle LED, test servo probe
   //
-//#define PINS_DEBUGGING
+#define PINS_DEBUGGING
 
 // Enable Tests that will run at startup and produce a report
 //#define MARLIN_TEST_BUILD
@@ -4348,7 +4353,7 @@
    * D576 - Buffer Monitoring
    * To help diagnose print quality issues stemming from empty command buffers.
    */
-  //#define BUFFER_MONITORING
+  #define BUFFER_MONITORING
 #endif
 
 /**
@@ -4356,7 +4361,7 @@
  * When running in the debugger it will break for debugging. This is useful to help understand
  * a crash from a remote location. Requires ~400 bytes of SRAM and 5Kb of flash.
  */
-//#define POSTMORTEM_DEBUGGING
+#define POSTMORTEM_DEBUGGING
 
 /**
  * Software Reset options
