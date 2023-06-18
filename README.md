@@ -1,10 +1,10 @@
 instaltion:
 per hand:
-just copy my github https://github.com/akadon/N32_Voxelab_Marlin into https://github.com/MarlinFirmware/Marlin.
+just copy my github https://github.com/akadon/Marlin_N32 into https://github.com/MarlinFirmware/Marlin.
   
 Linux:     
 git clone https://github.com/MarlinFirmware/Marlin .   
-git checkout c8cb618faca2ec88681dfdd1b36ab6d160036b33 # latest commit at this time (tested works)   
+git checkout 441416728cd7f0e9b6ebf94f895d1d27fe59d25a # latest commit at this time (tested works)   
 git clone https://github.com/akadon/Marlin_N32 Marlin_N32   
 cp -r !(.git/\*) Marlin_N32/\* .    
   
